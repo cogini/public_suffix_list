@@ -1,6 +1,6 @@
 # PublicSuffixList
 
-**TODO: Add description**
+Parse DNS domain names using public suffix list from https://publicsuffix.org
 
 ## Installation
 
@@ -18,4 +18,3 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/public_suffix_list](https://hexdocs.pm/public_suffix_list).
-
