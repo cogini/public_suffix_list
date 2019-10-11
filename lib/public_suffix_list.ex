@@ -7,6 +7,42 @@ defmodule PublicSuffixList do
   @input_file Path.join(:code.priv_dir(@app), "public_suffix_list.dat")
   @external_resource @input_file
 
+  @doc "Parse domain into subdomains, name and suffix"
+  @spec parse(binary) :: {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
+  def parse(domain) when is_binary(domain) do
+    domain
+    |> String.downcase()
+    |> String.split(".")
+    |> Enum.reverse()
+    |> match_suffix()
+  end
+
+  @doc "Strip subdomain, leaving just name and suffix"
+  @spec normalize(binary) :: {:ok, binary} | {:error, :unknown_suffix}
+  def normalize(domain) when is_binary(domain) do
+    case parse(domain) do
+      {:ok, {_subdomains, name, suffix}} ->
+        {:ok, name <> "." <> suffix}
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  @doc "Strip subdomain and suffix, leaving just the name"
+  @spec name(binary) :: {:ok, binary} | {:error, :unknown_suffix}
+  def name(domain) when is_binary(domain) do
+    case parse(domain) do
+      {:ok, {_subdomains, name, _suffix}} ->
+        {:ok, name}
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  # Internal functions
+
+  # Build function clauses to match names from public suffix list data
+
   @spec match_suffix(list(binary)) :: {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
 
   @input_file
@@ -20,42 +56,10 @@ defmodule PublicSuffixList do
   |> Enum.map(fn {comps, suffix} ->
     args = comps ++ quote(do: [name | rest])
     result = quote(do: {:ok, {Enum.reverse(rest), name, unquote(suffix)}})
-    def match_suffix(unquote(args)), do: unquote(result)
+    defp match_suffix(unquote(args)), do: unquote(result)
     end)
 
-  def match_suffix(_) do
+  defp match_suffix(_) do
     {:error, :unknown_suffix}
-  end
-
-  @doc "Parse domain into subdomains, name and suffix"
-  @spec parse(binary) :: {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
-  def parse(domain) when is_binary(domain) do
-    domain
-    |> String.downcase()
-    |> String.split(".")
-    |> Enum.reverse()
-    |> match_suffix()
-  end
-
-  @doc "Strip subdomain, leaving just name and suffix"
-  @spec normalize(binary) :: binary | {:error, :unknown_suffix}
-  def normalize(domain) when is_binary(domain) do
-    case parse(domain) do
-      {:ok, {_subdomains, name, suffix}} ->
-        name <> "." <> suffix
-      {:error, reason} ->
-        {:error, reason}
-    end
-  end
-
-  @doc "Strip subdomain and suffix, leaving just the name"
-  @spec name(binary) :: binary | {:error, :unknown_suffix}
-  def name(domain) when is_binary(domain) do
-    case parse(domain) do
-      {:ok, {_subdomains, name, _suffix}} ->
-        name
-      {:error, reason} ->
-        {:error, reason}
-    end
   end
 end
