@@ -4,7 +4,7 @@ defmodule PublicSuffixList.MixProject do
   def project do
     [
       app: :public_suffix_list,
-      version: "0.1.0",
+      version: "0.2.0",
       elixir: "~> 1.8",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
