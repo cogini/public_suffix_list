@@ -2,9 +2,9 @@
 
 Parse DNS domain names using public suffix list from https://publicsuffix.org
 
-The public suffix list disginguishes registerable domains from the "suffix" of
+The public suffix list distinguishes registrable domains from the "suffix" of
 the domain. For simple TLDs like `.com`, it's clear which part is the name, but
-there are many compoound suffixes like `.ac.uk`, and it becomes difficult to
+there are many compound suffixes like `.ac.uk`, and it becomes difficult to
 tell what part is the name.
 
 This list was originally defined by Mozilla to make sure that websites
