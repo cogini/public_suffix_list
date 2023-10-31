@@ -23,6 +23,7 @@ defmodule PublicSuffixList do
     case parse(domain) do
       {:ok, {_subdomains, name, suffix}} ->
         {:ok, name <> "." <> suffix}
+
       {:error, reason} ->
         {:error, reason}
     end
@@ -34,6 +35,7 @@ defmodule PublicSuffixList do
     case parse(domain) do
       {:ok, {_subdomains, name, _suffix}} ->
         {:ok, name}
+
       {:error, reason} ->
         {:error, reason}
     end
@@ -46,18 +48,18 @@ defmodule PublicSuffixList do
   @spec match_suffix(list(binary)) :: {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
 
   @input_file
-  |> File.read!
+  |> File.read!()
   |> String.split("\n")
   |> Enum.filter(&(not Regex.match?(~r/^\/\/|^\s*$/, &1)))
   |> Enum.map(&String.trim/1)
   |> Enum.reject(&(&1 == ""))
-  |> Enum.map(&({&1 |> String.split(".") |> Enum.reverse, &1}))
+  |> Enum.map(&{&1 |> String.split(".") |> Enum.reverse(), &1})
   |> Enum.sort(&>=/2)
   |> Enum.map(fn {comps, suffix} ->
     args = comps ++ quote(do: [name | rest])
     result = quote(do: {:ok, {Enum.reverse(rest), name, unquote(suffix)}})
     defp match_suffix(unquote(args)), do: unquote(result)
-    end)
+  end)
 
   defp match_suffix(_) do
     {:error, :unknown_suffix}
