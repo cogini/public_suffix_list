@@ -22,3 +22,4 @@ erl_crash.dump
 # Ignore package tarball (built via "mix hex.build").
 public_suffix_list-*.tar
 
+.DS_Store
