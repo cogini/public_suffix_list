@@ -76,7 +76,7 @@ defmodule PublicSuffixList.MixProject do
       extras: [
         "README.md",
         "CHANGELOG.md": [title: "Changelog"],
-        LICENSE: [title: "License (Apache 2.0)"],
+        "LICENSE.md": [title: "License (Apache 2.0)"],
         "CODE_OF_CONDUCT.md": [title: "Code of Conduct"]
       ],
       source_url_pattern: "#{@github}/blob/master/%{path}#L%{line}"

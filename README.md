@@ -1,4 +1,7 @@
-# PublicSuffixList
+![test workflow](https://github.com/reachfh/logger_formatter_json/actions/workflows/test.yml/badge.svg)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
+# public_suffix_list
 
 Parse DNS domain names using public suffix list from https://publicsuffix.org
 
