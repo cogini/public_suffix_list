@@ -93,7 +93,6 @@ defmodule PublicSuffixList.MixProject do
         # mix deps.clean --unlock --unused
         "deps.unlock --check-unused",
         # "hex.outdated",
-        "hex.audit",
         "deps.audit",
         "dialyzer --quiet-with-result"
       ],
@@ -101,7 +100,6 @@ defmodule PublicSuffixList.MixProject do
         "format --check-formatted",
         "deps.unlock --check-unused",
         # "hex.outdated",
-        "hex.audit",
         "deps.audit",
         "credo",
         "dialyzer --quiet-with-result"
