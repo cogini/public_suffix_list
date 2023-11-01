@@ -65,7 +65,7 @@ defmodule PublicSuffixList.MixProject do
     [
       name: "public_suffix_list",
       maintainers: ["Jake Morrison"],
-      licenses: ["Apache 2.0"],
+      licenses: ["Apache-2.0"],
       links: %{"GitHub" => "https://github.com/cogini/public_suffix_list"}
     ]
   end
