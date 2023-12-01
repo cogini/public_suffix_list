@@ -3,10 +3,12 @@ defmodule PublicSuffixList.MixProject do
 
   @github "https://github.com/cogini/public_suffix_list"
 
+  @version "0.7.0"
+
   def project do
     [
       app: :public_suffix_list,
-      version: "0.7.0",
+      version: @version,
       elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
