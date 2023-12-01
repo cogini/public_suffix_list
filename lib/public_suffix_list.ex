@@ -45,7 +45,8 @@ defmodule PublicSuffixList do
 
   # Build function clauses to match names from public suffix list data
 
-  @spec match_suffix(list(binary)) :: {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
+  @spec match_suffix(list(binary)) ::
+          {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
 
   @input_file
   |> File.read!()

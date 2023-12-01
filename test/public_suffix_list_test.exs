@@ -6,7 +6,10 @@ defmodule PublicSuffixListTest do
     assert PublicSuffixList.parse("www.foo.uk") == {:ok, {["www"], "foo", "uk"}}
     assert PublicSuffixList.parse("www.example.com") == {:ok, {["www"], "example", "com"}}
     assert PublicSuffixList.parse("example.com") == {:ok, {[], "example", "com"}}
-    assert PublicSuffixList.parse("www.subdomain.example.com") == {:ok, {["www", "subdomain"], "example", "com"}}
+
+    assert PublicSuffixList.parse("www.subdomain.example.com") ==
+             {:ok, {["www", "subdomain"], "example", "com"}}
+
     assert PublicSuffixList.parse("invalid") == {:error, :unknown_suffix}
     assert PublicSuffixList.parse("") == {:error, :unknown_suffix}
     assert PublicSuffixList.parse("8.8.8.8") == {:error, :unknown_suffix}

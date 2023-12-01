@@ -71,9 +71,8 @@ defmodule PublicSuffixList.MixProject do
       licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @github,
-        "Changelog" => "#{@github}/blob/#{@version}/CHANGELOG.md##{
-          String.replace(@version, ".", "")
-        }"
+        "Changelog" =>
+          "#{@github}/blob/#{@version}/CHANGELOG.md##{String.replace(@version, ".", "")}"
       }
     ]
   end
