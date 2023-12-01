@@ -64,15 +64,23 @@ defmodule PublicSuffixList.MixProject do
   defp package do
     [
       name: "public_suffix_list",
+      description: description(),
       maintainers: ["Jake Morrison"],
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => "https://github.com/cogini/public_suffix_list"}
+      links: %{
+        "GitHub" => @github,
+        "Changelog" => "#{@github}/blob/#{@version}/CHANGELOG.md##{
+          String.replace(@version, ".", "")
+        }"
+      }
     ]
   end
 
   defp docs do
     [
       main: "readme",
+      source_url: @github,
+      source_ref: @version,
       extras: [
         "README.md",
         "CHANGELOG.md": [title: "Changelog"],
