@@ -3,13 +3,13 @@ defmodule PublicSuffixList.MixProject do
 
   @github "https://github.com/cogini/public_suffix_list"
 
-  @version "0.7.0"
+  @version "0.7.1"
 
   def project do
     [
       app: :public_suffix_list,
       version: @version,
-      elixir: "~> 1.8",
+      elixir: "~> 1.13",
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -18,18 +18,8 @@ defmodule PublicSuffixList.MixProject do
         plt_add_apps: [:mix, :ex_unit]
       ],
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test,
-        "coveralls.lcov": :test,
-        quality: :test,
-        "quality.ci": :test
-      ],
       description: description(),
       package: package(),
-      # Docs
       source_url: @github,
       homepage_url: @github,
       docs: docs(),
@@ -43,6 +33,20 @@ defmodule PublicSuffixList.MixProject do
     ]
   end
 
+  def cli do
+    [
+      preferred_envs: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test,
+        "coveralls.lcov": :test,
+        quality: :test,
+        "quality.ci": :test
+      ]
+    ]
+  end
+
   defp elixirc_paths(:dev), do: ["lib", "test/support"]
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
@@ -50,12 +54,12 @@ defmodule PublicSuffixList.MixProject do
   defp deps do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.2", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.30", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.40.0", only: :dev, runtime: false},
       {:excoveralls, "~> 0.18.0", only: [:dev, :test], runtime: false},
       {:junit_formatter, "~> 3.3", only: [:dev, :test], runtime: false},
       {:mix_audit, "~> 2.0", only: [:dev, :test], runtime: false},
-      {:styler, "~> 0.9.6", only: [:dev, :test], runtime: false}
+      {:styler, "~> 1.11.0", only: [:dev, :test], runtime: false}
     ]
   end
 
@@ -65,14 +69,12 @@ defmodule PublicSuffixList.MixProject do
 
   defp package do
     [
-      name: "public_suffix_list",
       description: description(),
       maintainers: ["Jake Morrison"],
       licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @github,
-        "Changelog" =>
-          "#{@github}/blob/#{@version}/CHANGELOG.md##{String.replace(@version, ".", "")}"
+        "Changelog" => "#{@github}/blob/#{@version}/CHANGELOG.md##{String.replace(@version, ".", "")}"
       }
     ]
   end
@@ -85,9 +87,11 @@ defmodule PublicSuffixList.MixProject do
       extras: [
         "README.md",
         "CHANGELOG.md": [title: "Changelog"],
-        "LICENSE.md": [title: "License (Apache 2.0)"],
+        "LICENSE.md": [title: "License (Apache-2.0)"],
+        "CONTRIBUTING.md": [title: "Contributing"],
         "CODE_OF_CONDUCT.md": [title: "Code of Conduct"]
       ],
+      # api_reference: false,
       source_url_pattern: "#{@github}/blob/master/%{path}#L%{line}"
     ]
   end
@@ -101,7 +105,9 @@ defmodule PublicSuffixList.MixProject do
         "credo",
         # mix deps.clean --unlock --unused
         "deps.unlock --check-unused",
+        # mix deps.update
         # "hex.outdated",
+        # "hex.audit",
         "deps.audit",
         "dialyzer --quiet-with-result"
       ],
@@ -109,6 +115,7 @@ defmodule PublicSuffixList.MixProject do
         "format --check-formatted",
         "deps.unlock --check-unused",
         # "hex.outdated",
+        "hex.audit",
         "deps.audit",
         "credo",
         "dialyzer --quiet-with-result"
