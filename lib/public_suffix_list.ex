@@ -43,6 +43,22 @@ defmodule PublicSuffixList do
     end
   end
 
+  @doc "Check if input is bare suffix"
+  # Parse behaves strangely when called with a bare multi-part suffix.
+  # It breaks it into parts, treating the first part as name and the rest as
+  # suffix.
+  @spec is_suffix(binary()) :: boolean()
+  def is_suffix(input) when is_binary(input) do
+    case parse("foo." <> input) do
+      # bare suffix
+      {:ok, {_subdomains, "foo", ^input}} -> true
+      # name + suffix
+      {:ok, {_subdomains, _name, _suffix}} -> false
+      # unknown suffix
+      {:error, _} -> false
+    end
+  end
+
   # Internal functions
 
   # Build function clauses to match names from public suffix list data
