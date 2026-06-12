@@ -8,7 +8,9 @@ defmodule PublicSuffixList do
   @external_resource @input_file
 
   @doc "Parse domain into subdomains, name and suffix"
-  @spec parse(binary) :: {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
+  @spec parse(binary()) ::
+          {:ok, {subdomains :: list(binary()), name :: binary(), suffix :: binary()}}
+          | {:error, :unknown_suffix}
   def parse(domain) when is_binary(domain) do
     domain
     |> String.downcase()
@@ -17,8 +19,8 @@ defmodule PublicSuffixList do
     |> match_suffix()
   end
 
-  @doc "Strip subdomain, leaving just name and suffix"
-  @spec normalize(binary) :: {:ok, binary} | {:error, :unknown_suffix}
+  @doc "Strip subdomain, returning name combined with suffix"
+  @spec normalize(binary()) :: {:ok, domain :: binary()} | {:error, :unknown_suffix}
   def normalize(domain) when is_binary(domain) do
     case parse(domain) do
       {:ok, {_subdomains, name, suffix}} ->
@@ -30,7 +32,7 @@ defmodule PublicSuffixList do
   end
 
   @doc "Strip subdomain and suffix, leaving just the name"
-  @spec name(binary) :: {:ok, binary} | {:error, :unknown_suffix}
+  @spec name(binary()) :: {:ok, name :: binary()} | {:error, :unknown_suffix}
   def name(domain) when is_binary(domain) do
     case parse(domain) do
       {:ok, {_subdomains, name, _suffix}} ->
@@ -45,8 +47,9 @@ defmodule PublicSuffixList do
 
   # Build function clauses to match names from public suffix list data
 
-  @spec match_suffix(list(binary)) ::
-          {:ok, {list(binary), binary, binary}} | {:error, :unknown_suffix}
+  @spec match_suffix(list(binary())) ::
+          {:ok, {subdomains :: list(binary()), name :: binary(), suffix :: binary()}}
+          | {:error, :unknown_suffix}
 
   @input_file
   |> File.read!()
