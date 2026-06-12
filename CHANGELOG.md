@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.7.1] - 2026-06-11
 ### Added
+- Add is_suffix/1 function to check if a string is a suffix.
 - Update dat file
 - Update libraries
 - Update CI/CD for new versions of Elixir and Erlang
